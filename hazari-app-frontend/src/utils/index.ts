@@ -1,4 +1,2 @@
-export const PATHS = {
-    PLAY: '/play',
-    HAND_MAKER: '/hand-maker'
-}
+export * from './constants'
+export * from './helpers'
