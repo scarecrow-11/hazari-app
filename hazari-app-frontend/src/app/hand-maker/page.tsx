@@ -2,6 +2,7 @@
 import styles from './HandMaker.module.css'
 import { Deck } from '../../types'
 import { useState, useCallback } from 'react'
+import { Space, Button } from 'antd'
 import { DeckView } from '../../components'
 
 const HandMakerPage = () => {
@@ -11,11 +12,17 @@ const HandMakerPage = () => {
         setSelectedDeck(selectedDeck)
     }, [])
 
+    const onMakeHands = () => {
+    }
+
     return (
         <div className={styles.container}>
-            <DeckView
-                onChange={onSelectedDeckChange}
-            />
+            <Space direction='vertical' size='large'>
+                <DeckView onChange={onSelectedDeckChange} />
+                <Button type='primary' size='large' block={true} onClick={onMakeHands}>
+                    {'Make Hands'}
+                </Button>
+            </Space>
         </div>
     )
 }

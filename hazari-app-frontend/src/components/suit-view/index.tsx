@@ -9,12 +9,13 @@ import { getCardId } from '../../utils'
 interface SuitViewProps {
     suit: Suit;
     cards: Card[];
+    disableUnselectedCards: boolean;
     onChange: (suit: Suit, selectedCards: Card[]) => void;
 }
 
 const DECK_IMAGE_BASE_URL = '/images/deck'
 
-export const SuitView = ({ suit, cards, onChange }: SuitViewProps) => {
+export const SuitView = ({ suit, cards, disableUnselectedCards, onChange }: SuitViewProps) => {
     const [selectedCards, setSelectedCards] = useState<Card[]>([])
 
     useEffect(() => {
@@ -50,6 +51,7 @@ export const SuitView = ({ suit, cards, onChange }: SuitViewProps) => {
                         className={styles.button}
                         type={isCardSelected(card) ? 'primary' : 'default'}
                         block={true}
+                        disabled={isCardSelected(card) ? false : disableUnselectedCards}
                         icon={
                             <Image
                                 src={`${DECK_IMAGE_BASE_URL}/${card.suit.toLowerCase()}.png`}
@@ -71,5 +73,6 @@ export const SuitView = ({ suit, cards, onChange }: SuitViewProps) => {
 SuitView.defaultProps = {
     suit: '',
     cards: [],
+    disableUnselectedCards: false,
     onChange: () => {}
 }
