@@ -1,6 +1,6 @@
 import type { ThemeConfig } from 'antd'
 
-export const MAX_NUMBER_OF_CARDS_IN_HAND = 13
+export const MAX_NUMBER_OF_CARDS = 13
 
 export const PATHS = {
     PLAY: '/play',

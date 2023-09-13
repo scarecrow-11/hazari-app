@@ -15,3 +15,18 @@ export interface Card {
 export type Deck = {
     [key in Suit]: Card[];
 }
+
+export interface Hand {
+    cardsInHand: Card[];
+    handRank: number;
+}
+
+export interface OptimalHands {
+    threeOfAKindHands: Hand[];
+    straightFlushHands: Hand[];
+    straightHands: Hand[];
+    flushHands: Hand[];
+    pairHands: Hand[];
+    bottomHands: Hand[];
+    remainingCards: Card[];
+}

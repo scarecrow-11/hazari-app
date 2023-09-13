@@ -6,6 +6,8 @@ import { useState, useEffect } from 'react'
 import { Space, Divider, Button } from 'antd'
 import { getCardId } from '../../utils'
 
+const DECK_IMAGE_BASE_URL = '/images/deck'
+
 interface SuitViewProps {
     suit: Suit;
     cards: Card[];
@@ -13,9 +15,14 @@ interface SuitViewProps {
     onChange: (suit: Suit, selectedCards: Card[]) => void;
 }
 
-const DECK_IMAGE_BASE_URL = '/images/deck'
+const suitViewDefaultProps = {
+    suit: '' as Suit,
+    cards: [],
+    disableUnselectedCards: false,
+    onChange: () => {}
+}
 
-export const SuitView = ({ suit, cards, disableUnselectedCards, onChange }: SuitViewProps) => {
+export const SuitView = ({ suit, cards, disableUnselectedCards, onChange }: SuitViewProps = suitViewDefaultProps) => {
     const [selectedCards, setSelectedCards] = useState<Card[]>([])
 
     useEffect(() => {
@@ -68,11 +75,4 @@ export const SuitView = ({ suit, cards, disableUnselectedCards, onChange }: Suit
             }
         </Space>
     )
-}
-
-SuitView.defaultProps = {
-    suit: '',
-    cards: [],
-    disableUnselectedCards: false,
-    onChange: () => {}
 }
