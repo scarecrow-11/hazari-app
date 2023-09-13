@@ -4,9 +4,7 @@ import { Suit, Card } from '../../types'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
 import { Space, Divider, Button } from 'antd'
-import { getCardId } from '../../utils'
-
-const DECK_IMAGE_BASE_URL = '/images/deck'
+import { getCardId, DECK_IMAGE_BASE_URL } from '../../utils'
 
 interface SuitViewProps {
     suit: Suit;

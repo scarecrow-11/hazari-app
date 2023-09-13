@@ -16,7 +16,7 @@ const HandMakerPage = () => {
         flushHands: [],
         pairHands: [],
         bottomHands: [],
-        remainingCards: []
+        remainingHands: []
     })
     const [isOptimalHandsVisible, setIsOptimalHandsVisible] = useState(false)
 
@@ -44,11 +44,11 @@ const HandMakerPage = () => {
                 >
                     {'Make Hands'}
                 </Button>
-                {
-                    isOptimalHandsVisible &&
-                    <HandsView optimalHands={optimalHands} />
-                }
             </Space>
+            {
+                isOptimalHandsVisible &&
+                <HandsView optimalHands={optimalHands} />
+            }
         </div>
     )
 }

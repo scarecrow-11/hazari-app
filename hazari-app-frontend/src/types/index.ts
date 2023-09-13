@@ -28,5 +28,5 @@ export interface OptimalHands {
     flushHands: Hand[];
     pairHands: Hand[];
     bottomHands: Hand[];
-    remainingCards: Card[];
+    remainingHands: Hand[];
 }

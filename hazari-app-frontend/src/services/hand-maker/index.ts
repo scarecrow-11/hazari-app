@@ -18,15 +18,16 @@ const flushComparator = (card: Card, card1: Card) => card.suit === card1.suit
 
 const pairComparator = (card: Card, card1: Card) => card.value === card1.value
 
-const getThreeOfAKindHands = (cards: Card[]) => {
+const getThreeOfAKindHands = (cards: Card[], latestHandRank: number) => {
     const threeOfAKindHands: Hand[] = []
     let takenCardIds: string[] = []
-    let handRank = 1
+    let handRank = latestHandRank || 1
 
     if (cards.length <= 4) {
         return {
             threeOfAKindHands,
-            remainingCards: cards
+            remainingCards: cards,
+            latestHandRank: handRank
         }
     }
 
@@ -63,19 +64,21 @@ const getThreeOfAKindHands = (cards: Card[]) => {
 
     return {
         threeOfAKindHands,
-        remainingCards: cards.filter(card => !takenCardIds.includes(getCardId(card)))
+        remainingCards: cards.filter(card => !takenCardIds.includes(getCardId(card))),
+        latestHandRank: handRank
     }
 }
 
-const getStraightFlushHands = (cards: Card[]) => {
+const getStraightFlushHands = (cards: Card[], latestHandRank: number) => {
     const straightFlushHands: Hand[] = []
     let takenCardIds: string[] = []
-    let handRank = 1
+    let handRank = latestHandRank || 1
 
     if (cards.length <= 4) {
         return {
             straightFlushHands,
-            remainingCards: cards
+            remainingCards: cards,
+            latestHandRank: handRank
         }
     }
 
@@ -112,19 +115,21 @@ const getStraightFlushHands = (cards: Card[]) => {
 
     return {
         straightFlushHands,
-        remainingCards: cards.filter(card => !takenCardIds.includes(getCardId(card)))
+        remainingCards: cards.filter(card => !takenCardIds.includes(getCardId(card))),
+        latestHandRank: handRank
     }
 }
 
-const getStraightHands = (cards: Card[]) => {
+const getStraightHands = (cards: Card[], latestHandRank: number) => {
     const straightHands: Hand[] = []
     let takenCardIds: string[] = []
-    let handRank = 1
+    let handRank = latestHandRank || 1
 
     if (cards.length <= 4) {
         return {
             straightHands,
-            remainingCards: cards
+            remainingCards: cards,
+            latestHandRank: handRank
         }
     }
 
@@ -161,19 +166,21 @@ const getStraightHands = (cards: Card[]) => {
 
     return {
         straightHands,
-        remainingCards: cards.filter(card => !takenCardIds.includes(getCardId(card)))
+        remainingCards: cards.filter(card => !takenCardIds.includes(getCardId(card))),
+        latestHandRank: handRank
     }
 }
 
-const getFlushHands = (cards: Card[]) => {
+const getFlushHands = (cards: Card[], latestHandRank: number) => {
     const flushHands: Hand[] = []
     let takenCardIds: string[] = []
-    let handRank = 1
+    let handRank = latestHandRank || 1
 
     if (cards.length <= 4) {
         return {
             flushHands,
-            remainingCards: cards
+            remainingCards: cards,
+            latestHandRank: handRank
         }
     }
 
@@ -210,19 +217,21 @@ const getFlushHands = (cards: Card[]) => {
 
     return {
         flushHands,
-        remainingCards: cards.filter(card => !takenCardIds.includes(getCardId(card)))
+        remainingCards: cards.filter(card => !takenCardIds.includes(getCardId(card))),
+        latestHandRank: handRank
     }
 }
 
-const getPairHands = (cards: Card[]) => {
+const getPairHands = (cards: Card[], latestHandRank: number) => {
     let pairHands: Hand[] = []
     let takenCardIds: string[] = []
-    let handRank = 1
+    let handRank = latestHandRank || 1
 
     if (cards.length <= 4) {
         return {
             pairHands,
-            remainingCards: cards
+            remainingCards: cards,
+            latestHandRank: handRank
         }
     }
 
@@ -270,19 +279,21 @@ const getPairHands = (cards: Card[]) => {
 
     return {
         pairHands,
-        remainingCards
+        remainingCards,
+        latestHandRank: handRank
     }
 }
 
-const getBottomHands = (cards: Card[]) => {
+const getBottomHands = (cards: Card[], latestHandRank: number) => {
     const bottomHands: Hand[] = []
     let takenCardIds: string[] = []
-    let handRank = 1
+    let handRank = latestHandRank || 1
 
     if (cards.length <= 4) {
         return {
             bottomHands,
-            remainingCards: cards
+            remainingCards: cards,
+            latestHandRank: handRank
         }
     }
 
@@ -319,7 +330,8 @@ const getBottomHands = (cards: Card[]) => {
 
     return {
         bottomHands,
-        remainingCards: cards.filter(card => !takenCardIds.includes(getCardId(card)))
+        remainingCards: cards.filter(card => !takenCardIds.includes(getCardId(card))),
+        latestHandRank: handRank
     }
 }
 
@@ -332,17 +344,23 @@ export const getOptimalHands = (cards: Card[]) => {
             flushHands: [],
             pairHands: [],
             bottomHands: [],
-            remainingCards: cards
+            remainingHands: [
+                {
+                    cardsInHand: cards,
+                    handRank: 1
+                }
+            ]
         } as OptimalHands
     }
 
+    const handRank = 1
     const sortedCards = cards.sort((a, b) => a.rank - b.rank)
-    const threeOfAKindHands = getThreeOfAKindHands(sortedCards)
-    const straightFlushHands = getStraightFlushHands(threeOfAKindHands.remainingCards)
-    const straightHands = getStraightHands(straightFlushHands.remainingCards)
-    const flushHands = getFlushHands(straightHands.remainingCards)
-    const pairHands = getPairHands(flushHands.remainingCards)
-    const bottomHands = getBottomHands(pairHands.remainingCards)
+    const threeOfAKindHands = getThreeOfAKindHands(sortedCards, handRank)
+    const straightFlushHands = getStraightFlushHands(threeOfAKindHands.remainingCards, threeOfAKindHands.latestHandRank)
+    const straightHands = getStraightHands(straightFlushHands.remainingCards, straightFlushHands.latestHandRank)
+    const flushHands = getFlushHands(straightHands.remainingCards, straightHands.latestHandRank)
+    const pairHands = getPairHands(flushHands.remainingCards, flushHands.latestHandRank)
+    const bottomHands = getBottomHands(pairHands.remainingCards, pairHands.latestHandRank)
 
     return {
         threeOfAKindHands: threeOfAKindHands.threeOfAKindHands,
@@ -351,6 +369,11 @@ export const getOptimalHands = (cards: Card[]) => {
         flushHands: flushHands.flushHands,
         pairHands: pairHands.pairHands,
         bottomHands: bottomHands.bottomHands,
-        remainingCards: bottomHands.remainingCards
+        remainingHands: [
+            {
+                cardsInHand: bottomHands.remainingCards,
+                handRank: bottomHands.latestHandRank
+            }
+        ]
     } as OptimalHands
 }
