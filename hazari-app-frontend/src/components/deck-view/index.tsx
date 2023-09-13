@@ -7,6 +7,10 @@ import { SuitView } from '../suit-view'
 import { getNumberOfCardsInSelectedDeck, MAX_NUMBER_OF_CARDS } from '../../utils'
 import { deck } from '../../data'
 
+notification.config({
+    maxCount: 1
+})
+
 interface DeckViewProps {
     onChange: (selectedDeck: Deck) => void;
 }
